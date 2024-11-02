@@ -15,7 +15,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Browser",
-            "url": "http://localhost:5173",
+            "url": "http://light.oo",
             "webRoot": "${workspaceFolder}/src"
 		}
 	],

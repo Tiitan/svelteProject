@@ -1,59 +1,26 @@
 <script lang="ts">
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
-</script>
+	import type { DeviceData } from '$lib/DeviceData'
+	import Device from '../Device.svelte'
+	import { onMount } from "svelte";
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
+	let devices: DeviceData[] = $state([]);
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+	onMount(async () => {
+		const response: Response = await fetch("http://192.168.1.179/devices");
+		let data = await response.json();
+		devices = data.devices
+	});
+	</script>
+	
+	<main>
+		<h1>Devices</h1>
+		<ul>
+		{#each devices as d}
+			<Device deviceData={d}/>
+		{/each}
+		</ul>
+	</main>
+	
+	<style>
+	
+	</style>
